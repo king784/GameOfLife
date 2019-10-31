@@ -10,9 +10,9 @@ public class GameOfLife
     static Random rand = new Random();
 
     // Grid stuff
-    static int width = 10;
-    static int height = 10;
-    static int blockSize = 40;
+    static int width = 50;
+    static int height = 50;
+    static int blockSize = 20;
     static Block[][] grid = new Block[width][height];
     static Block[][] next;
 
@@ -61,7 +61,9 @@ public class GameOfLife
         {
             for(int j = -1; j < 2; j++)
             {
-                sum += grid[x+i][y+j].active;
+                int col = (x + i + width) % width;
+                int row = (y + j + height) % height;
+                sum += grid[col][row].active;
             }
         }
         sum -= grid[x][y].active;
@@ -72,7 +74,7 @@ public class GameOfLife
     public static void gameLoop()
     {
         long lastLoopTime = System.nanoTime();
-        final int TARGET_FPS = 2;
+        final int TARGET_FPS = 30;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS; 
 
         while(gameRunning)
