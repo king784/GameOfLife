@@ -80,54 +80,54 @@ public class GameOfLife
         while(gameRunning)
         {
             // work out how long its been since the last update, this
-        // will be used to calculate how far the entities should
-        // move this loop
-        long now = System.nanoTime();
-        long updateLength = now - lastLoopTime;
-        lastLoopTime = now;
-        double delta = updateLength / ((double)OPTIMAL_TIME);
-        
-        // update the game logic
-        // Count neighbours
-        int sum = 0;
-        for(int i = 0; i < width; i++)
-        {
-            for(int j = 0; j < height; j++)
+            // will be used to calculate how far the entities should
+            // move this loop
+            long now = System.nanoTime();
+            long updateLength = now - lastLoopTime;
+            lastLoopTime = now;
+            double delta = updateLength / ((double)OPTIMAL_TIME);
+            
+            // update the game logic
+            // Count neighbours
+            int sum = 0;
+            for(int i = 0; i < width; i++)
             {
-                int neighbours = countNeighbours(grid, i, j);
-                int state = grid[i][j].active;
+                for(int j = 0; j < height; j++)
+                {
+                    int neighbours = countNeighbours(grid, i, j);
+                    int state = grid[i][j].active;
 
-                if(state == 0 && neighbours == 3)
-                {
-                    next[i][j].active = 1;
-                }
-                else if(state == 1 && (neighbours < 2 || neighbours > 3))
-                {
-                    next[i][j].active = 0;
-                }
-                else
-                {
-                    next[i][j].active = state;
+                    if(state == 0 && neighbours == 3)
+                    {
+                        next[i][j].active = 1;
+                    }
+                    else if(state == 1 && (neighbours < 2 || neighbours > 3))
+                    {
+                        next[i][j].active = 0;
+                    }
+                    else
+                    {
+                        next[i][j].active = state;
+                    }
                 }
             }
-        }
-        
-        // draw everyting
-        panel.repaint();
+            
+            // draw everyting
+            panel.repaint();
 
-        // we want each frame to take 10 milliseconds, to do this
-        // we've recorded when we started the frame. We add 10 milliseconds
-        // to this and then factor in the current time to give 
-        // us our final value to wait for
-        // remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
-        try
-        {
-            Thread.sleep( (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000 );
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+            // we want each frame to take 10 milliseconds, to do this
+            // we've recorded when we started the frame. We add 10 milliseconds
+            // to this and then factor in the current time to give 
+            // us our final value to wait for
+            // remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
+            try
+            {
+                Thread.sleep( (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000 );
+            }
+            catch(Exception e)
+            {
+                System.out.println(e);
+            }
         }
     }
 
@@ -144,7 +144,8 @@ public class GameOfLife
         {
             for(int j = 0; j < height; j++)
             {
-                if(rand.nextInt(2) == 0)
+                // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
+                if(rand.nextDouble() < 0.10)
                 {
                     Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
                     grid[i][j] = block;
