@@ -10,9 +10,9 @@ public class GameOfLife
     static Random rand = new Random();
 
     // Grid stuff
-    static int width = 50;
-    static int height = 50;
-    static int blockSize = 20;
+    static int width = 60;
+    static int height = 60;
+    static int blockSize = 10;
     static Block[][] grid = new Block[width][height];
     static Block[][] next;
 
@@ -94,28 +94,20 @@ public class GameOfLife
         {
             for(int j = 0; j < height; j++)
             {
-                if(i == 0 || i == width - 1 || j == 0 || j == height - 1)
+                int neighbours = countNeighbours(grid, i, j);
+                int state = grid[i][j].active;
+
+                if(state == 0 && neighbours == 3)
                 {
-                    next[i][j] = grid[i][j];
+                    next[i][j].active = 1;
+                }
+                else if(state == 1 && (neighbours < 2 || neighbours > 3))
+                {
+                    next[i][j].active = 0;
                 }
                 else
                 {
-
-                    int neighbours = countNeighbours(grid, i, j);
-                    int state = grid[i][j].active;
-
-                    if(state == 0 && neighbours == 3)
-                    {
-                        next[i][j].active = 1;
-                    }
-                    else if(state == 1 && (neighbours < 2 || neighbours > 3))
-                    {
-                        next[i][j].active = 0;
-                    }
-                    else
-                    {
-                        next[i][j].active = state;
-                    }
+                    next[i][j].active = state;
                 }
             }
         }
@@ -144,7 +136,7 @@ public class GameOfLife
         JFrame frame = new JFrame("Game of Life");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setBounds(50, 50, 700, 700);
+        frame.setBounds(0, 0, 800, 600);
         
         panel.setLayout(null);
         //Container cont = frame.getContentPane();
