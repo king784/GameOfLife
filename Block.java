@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
@@ -32,7 +31,8 @@ public class Block extends JPanel
             Color black = new Color(0, 0, 0);
             g.setColor(black);
         }
-            g.fillRect(this.x, this.y, this.size, this.size);
+        
+        g.fillRect(this.x, this.y, this.size, this.size);
         
     }
 }

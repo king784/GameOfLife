@@ -88,14 +88,13 @@ public class GameOfLife
             double delta = updateLength / ((double)OPTIMAL_TIME);
             
             // update the game logic
-            // Count neighbours
-            int sum = 0;
+
             for(int i = 0; i < width; i++)
             {
                 for(int j = 0; j < height; j++)
                 {
-                    int neighbours = countNeighbours(grid, i, j);
                     int state = grid[i][j].active;
+                    int neighbours = countNeighbours(grid, i, j);
 
                     if(state == 0 && neighbours == 3)
                     {
@@ -111,6 +110,7 @@ public class GameOfLife
                     }
                 }
             }
+            grid = next;
             
             // draw everyting
             panel.repaint();
@@ -145,7 +145,7 @@ public class GameOfLife
             for(int j = 0; j < height; j++)
             {
                 // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
-                if(rand.nextDouble() < 0.10)
+                if(rand.nextDouble() < 0.2)
                 {
                     Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
                     grid[i][j] = block;
