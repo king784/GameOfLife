@@ -74,7 +74,7 @@ public class GameOfLife
     public static void gameLoop()
     {
         long lastLoopTime = System.nanoTime();
-        final int TARGET_FPS = 30;
+        final int TARGET_FPS = 2;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS; 
 
         while(gameRunning)
@@ -103,6 +103,10 @@ public class GameOfLife
                     else if(state == 1 && (neighbours < 2 || neighbours > 3))
                     {
                         next[i][j].active = 0;
+                    }
+                    else if(state == 1 && (neighbours == 2 || neighbours == 3))
+                    {
+                        next[i][j].active = 1;
                     }
                     else
                     {
@@ -145,7 +149,7 @@ public class GameOfLife
             for(int j = 0; j < height; j++)
             {
                 // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
-                if(rand.nextDouble() < 0.2)
+                if(rand.nextDouble() < 0.1)
                 {
                     Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
                     grid[i][j] = block;
