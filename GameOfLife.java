@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.Event;
+import java.awt.event.MouseAdapter;
 
 import java.util.Random;
 
@@ -33,7 +36,7 @@ public class GameOfLife
                     grid[i][j].Draw(g);
                 }
             }
-        }
+        }    
     };
 
     static boolean gameRunning = true;
@@ -188,6 +191,32 @@ public class GameOfLife
 
         frame.add(panel);
         frame.setVisible(true);
+
+        panel.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent evt) {
+                java.awt.Point p = evt.getPoint();
+                // System.out.println((width*blockSize));
+                // System.out.println(p.x);
+                double newXD = ((double)p.x/(width*blockSize))*width;
+                double newYD = ((double)p.y/(height*blockSize))*height;
+                int newX = (int) newXD;
+                int newY = (int) newYD;
+                // System.out.println((width*blockSize)/p.x);
+                // System.out.println((height*blockSize));
+                // System.out.println(p.y);
+                // System.out.println((height*blockSize)/p.y);
+                // System.out.println("-----");
+                System.out.println(newX);
+                System.out.println(newY);
+                if(newX >= width) {
+                    newX = width-1;
+                }
+                if(newY >= height) {
+                    newY = height-1;
+                }
+                grid[newX][newY].active = 1;
+            }
+        });
 
         gameLoop();
     }
