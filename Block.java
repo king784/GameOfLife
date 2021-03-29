@@ -20,6 +20,15 @@ public class Block extends JPanel
         active = newActive;
     }
 
+    public Block()
+    {
+        x = 0;
+        y = 0;
+        size = 0;
+        col = new Color(0, 0, 0);
+        active = 0;
+    }
+
     public void Draw(Graphics g)
     {
         if(this.active == 1)

@@ -2,6 +2,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import java.util.Random;
 
@@ -14,7 +17,7 @@ public class GameOfLife
     static int height = 60;
     static int blockSize = 10;
     static Block[][] grid = new Block[width][height];
-    static Block[][] next;
+    // static Block[][] next;
 
     // Create grid blocks and add them to frame
     static JPanel panel = new JPanel()
@@ -74,7 +77,7 @@ public class GameOfLife
     public static void gameLoop()
     {
         long lastLoopTime = System.nanoTime();
-        final int TARGET_FPS = 2;
+        final int TARGET_FPS = 10;
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS; 
 
         while(gameRunning)
@@ -88,7 +91,15 @@ public class GameOfLife
             double delta = updateLength / ((double)OPTIMAL_TIME);
             
             // update the game logic
-
+            Block[][] next = new Block[width][height];
+            for(int i = 0; i < width; i++)
+            {
+                for(int j = 0; j < height; j++)
+                {
+                    next[i][j] = new Block();
+                    next[i][j].active = grid[i][j].active;
+                }
+            }
             for(int i = 0; i < width; i++)
             {
                 for(int j = 0; j < height; j++)
@@ -96,15 +107,15 @@ public class GameOfLife
                     int state = grid[i][j].active;
                     int neighbours = countNeighbours(grid, i, j);
 
-                    if(state == 0 && neighbours == 3)
-                    {
-                        next[i][j].active = 1;
-                    }
-                    else if(state == 1 && (neighbours < 2 || neighbours > 3))
+                    if(state == 1 && neighbours < 2)
                     {
                         next[i][j].active = 0;
                     }
-                    else if(state == 1 && (neighbours == 2 || neighbours == 3))
+                    else if(state == 1 && neighbours > 3)
+                    {
+                        next[i][j].active = 0;
+                    }
+                    else if(state == 0 && neighbours == 3)
                     {
                         next[i][j].active = 1;
                     }
@@ -114,7 +125,13 @@ public class GameOfLife
                     }
                 }
             }
-            grid = next;
+            for(int i = 0; i < width; i++)
+            {
+                for(int j = 0; j < height; j++)
+                {
+                    grid[i][j].active = next[i][j].active;
+                }
+            }
             
             // draw everyting
             panel.repaint();
@@ -140,16 +157,23 @@ public class GameOfLife
         JFrame frame = new JFrame("Game of Life");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setBounds(0, 0, 800, 600);
-        
-        panel.setLayout(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle rect = new Rectangle(screenSize.width / 2 - screenSize.width
+            / 4, screenSize.height / 2 - screenSize.height / 4,
+            screenSize.width / 2, screenSize.height / 2);
+        //frame.setBounds(0, 0, width*blockSize, height*blockSize);
+        frame.setPreferredSize(new Dimension(1000, 1000));
+        frame.setResizable(false);
+        frame.pack();
+        frame.setLocation(rect.x, rect.y);
+
         //Container cont = frame.getContentPane();
         for(int i = 0; i < width; i++)
         {
             for(int j = 0; j < height; j++)
             {
                 // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
-                if(rand.nextDouble() < 0.1)
+                if(rand.nextDouble() < 0.10)
                 {
                     Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
                     grid[i][j] = block;
@@ -161,7 +185,6 @@ public class GameOfLife
                 }
             }
         }
-        next = grid;
 
         frame.add(panel);
         frame.setVisible(true);
