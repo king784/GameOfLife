@@ -9,23 +9,21 @@ public class Block extends JPanel
 {
     public int x;
     public int y;
-    public int gridX;
-    public int gridY;
     public int size;
     public Color col;
     public int active;
 
-    public Block(int newX, int newY, int newSize, Color newCol, int newActive, int newGridX, int newGridY)
+    public Block(int newX, int newY, int newSize, Color newCol, int newActive)
     {
         x = newX;
         y = newY;
         size = newSize;
         col = newCol;
         active = newActive;
-        gridX = newGridX;
-        gridY = newGridY;
         addMouseListener(new MouseAdapter(){
+            @Override
             public void mouseClicked(MouseEvent evt) {
+                System.out.println(evt.getPoint());
                 if(active == 1){
                     active = 0;
                 }else{
@@ -33,17 +31,28 @@ public class Block extends JPanel
                 }
             }
         });
+        setFocusable(true);
     }
 
     public Block()
     {
         x = 0;
         y = 0;
-        gridX = 0;
-        gridY = 0;
         size = 0;
         col = new Color(0, 0, 0);
         active = 0;
+        addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                System.out.println(evt.getPoint());
+                if(active == 1){
+                    active = 0;
+                }else{
+                    active = 1;
+                }
+            }
+        });
+        setFocusable(true);
     }
 
     public void Draw(Graphics g)

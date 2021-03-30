@@ -165,7 +165,7 @@ public class GameOfLife
             / 4, screenSize.height / 2 - screenSize.height / 4,
             screenSize.width / 2, screenSize.height / 2);
         //frame.setBounds(0, 0, width*blockSize, height*blockSize);
-        frame.setPreferredSize(new Dimension(1000, 1000));
+        frame.setPreferredSize(new Dimension(690, 700));
         frame.setResizable(false);
         frame.pack();
         frame.setLocation(rect.x, rect.y);
@@ -178,12 +178,12 @@ public class GameOfLife
                 // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
                 if(rand.nextDouble() < 0.10)
                 {
-                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1, i, j);
+                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
                     grid[i][j] = block;
                 }
                 else
                 {
-                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 0, i, j);
+                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 0);
                     grid[i][j] = block;
                 }
             }
