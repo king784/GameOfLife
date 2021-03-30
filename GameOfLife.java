@@ -178,12 +178,12 @@ public class GameOfLife
                 // Percentage chance because nextDouble returns value between 0.0 and 1.0, so less than 0.1 means almost 10%
                 if(rand.nextDouble() < 0.10)
                 {
-                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1);
+                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 1, i, j);
                     grid[i][j] = block;
                 }
                 else
                 {
-                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 0);
+                    Block block = new Block((i+(i*blockSize)), j + (j*blockSize), blockSize, randomColor(), 0, i, j);
                     grid[i][j] = block;
                 }
             }
@@ -192,31 +192,31 @@ public class GameOfLife
         frame.add(panel);
         frame.setVisible(true);
 
-        panel.addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent evt) {
-                java.awt.Point p = evt.getPoint();
-                // System.out.println((width*blockSize));
-                // System.out.println(p.x);
-                double newXD = ((double)p.x/(width*blockSize))*width;
-                double newYD = ((double)p.y/(height*blockSize))*height;
-                int newX = (int) newXD;
-                int newY = (int) newYD;
-                // System.out.println((width*blockSize)/p.x);
-                // System.out.println((height*blockSize));
-                // System.out.println(p.y);
-                // System.out.println((height*blockSize)/p.y);
-                // System.out.println("-----");
-                System.out.println(newX);
-                System.out.println(newY);
-                if(newX >= width) {
-                    newX = width-1;
-                }
-                if(newY >= height) {
-                    newY = height-1;
-                }
-                grid[newX][newY].active = 1;
-            }
-        });
+        // panel.addMouseListener(new MouseAdapter(){
+        //     public void mouseClicked(MouseEvent evt) {
+        //         java.awt.Point p = evt.getPoint();
+        //         // System.out.println((width*blockSize));
+        //         // System.out.println(p.x);
+        //         double newXD = ((double)p.x/(width*blockSize))*width;
+        //         double newYD = ((double)p.y/(height*blockSize))*height;
+        //         int newX = (int) newXD;
+        //         int newY = (int) newYD;
+        //         // System.out.println((width*blockSize)/p.x);
+        //         // System.out.println((height*blockSize));
+        //         // System.out.println(p.y);
+        //         // System.out.println((height*blockSize)/p.y);
+        //         // System.out.println("-----");
+        //         System.out.println(newX);
+        //         System.out.println(newY);
+        //         if(newX >= width) {
+        //             newX = width-1;
+        //         }
+        //         if(newY >= height) {
+        //             newY = height-1;
+        //         }
+        //         grid[newX][newY].active = 1;
+        //     }
+        // });
 
         gameLoop();
     }
